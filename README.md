@@ -1,55 +1,53 @@
-# personal
 <?php
-$host = $_SERVER["SERVER_NAME"];
-$message = "Message in a Bottle";
+	$host = $_SERVER["SERVER_NAME"];
+	$message = "Message in a Bottle";
 
-$my_string = "";
-$my_int = 42;
-$my_float = -2.35;
-$my_bool = false;
-$my_array = [];
-$my_object = date_create();
-$my_null = null;
+	$my_string = "";
+	$my_int = 42;
+	$my_float = -2.35;
+	$my_bool = false;
+	$my_array = [];
+	$my_object = date_create();
+	$my_null = null;
 
-$my_array["myclass"] = 42;
+	$my_array["myclass"] = 42;
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>First PHP</title>
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8">
+		<title>Week 5</title>
+	</head>
 
-  <h2><?php echo $host; ?></h2>
-  <h1>Week 5</h1>
+	<body>
+		<h2><?php echo $host; ?></h2>
+		<h1>Week 5</h1>
 
-  <?php echo "<p>" . $message . "</p>"; ?>
-  <p><?php echo $message; ?></p>
+		<?php
+			echo "<p>" . $message . "</p>";
+		?>
 
-  <?php
-  if (is_int($my_int)) {
-    echo "<p>We have a integer</p>";
-    echo "<p>" . gettype($my_int) . "</p>";
-  }
+		<p><?php echo $message; ?></p>
 
-  echo "<p>Boolean dump:</p>";
-  var_dump($my_bool);
-  echo "<br>";
+		<?php
+			if (is_int($my_int)) {
+				echo "<p>We have an integer</p>";
+				echo "<p>" . gettype($my_int) . "</p>";
+			}
 
-  echo "<p>Object dump:</p>";
-  var_dump($my_object);
-  echo "<br><br>";
+			echo "<br>";
+			var_dump($my_bool);
+			echo "<br>";
 
-  $my_int = (string) $my_int;
+			var_dump($my_object);
+			echo "<br><br>";
 
-  if (is_string($my_int)) {
-    echo "<p>This is a string</p>";
-    echo "<p>" . gettype($my_int) . "</p>";
-  }
-  ?>
+			$my_int = (string) $my_int;
 
-</body>
+			if (is_string($my_int)) {
+				echo "<p>This is a string</p>";
+				echo "<p>" . gettype($my_int) . "</p>";
+			}
+		?>
+	</body>
 </html>
