@@ -1,0 +1,112 @@
+<?php
+
+$len = $wid = $diam = $rectPrice = $circPrice = NULL;
+$rectValue = $circValue = NULL;
+$lenErr = $widErr = $diamErr = $rectPriceErr = $circPriceErr = NULL;
+$valid = NULL;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $len = $_POST["len"];
+    $wid = $_POST["wid"];
+    $diam = $_POST["diam"];
+    $rectPrice = $_POST["rectPrice"];
+    $circPrice = $_POST["circPrice"];
+
+    $valid = true;
+
+    if (empty($len) || !is_numeric($len) || $len <= 0 || $len > 24) {
+        $lenErr = "Length invalid.";
+        $valid = false;
+    }
+
+    if (empty($wid) || !is_numeric($wid) || $wid <= 0 || $wid > 24) {
+        $widErr = "Width invalid.";
+        $valid = false;
+    }
+
+    if (empty($rectPrice) || !is_numeric($rectPrice) || $rectPrice <= 0 || $rectPrice > 100) {
+        $rectPriceErr = "Price invalid.";
+        $valid = false;
+    }
+
+    if (empty($diam) || !is_numeric($diam) || $diam <= 0 || $diam > 24) {
+        $diamErr = "Diameter invalid.";
+        $valid = false;
+    }
+
+    if (empty($circPrice) || !is_numeric($circPrice) || $circPrice <= 0 || $circPrice > 100) {
+        $circPriceErr = "Price invalid.";
+        $valid = false;
+    }
+
+    if ($valid) {
+
+        $rectArea = $len * $wid;
+        $rectValue = number_format($rectPrice / $rectArea, 4);
+
+        $radius = $diam / 2;
+        $circArea = pi() * $radius * $radius;
+        $circValue = number_format($circPrice / $circArea, 4);
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pizza Value</title>
+</head>
+<body>
+
+<form method="post">
+
+<fieldset>
+<legend>Rectangular Pizza</legend>
+
+Length <input type="text" name="len" value="<?php echo $len; ?>"><br>
+Width <input type="text" name="wid" value="<?php echo $wid; ?>"><br>
+Price <input type="text" name="rectPrice" value="<?php echo $rectPrice; ?>"><br>
+
+<font color="red">
+<?php
+echo $lenErr . " ";
+echo $widErr . " ";
+echo $rectPriceErr;
+?>
+</font>
+
+</fieldset>
+
+<br>
+
+<fieldset>
+<legend>Circular Pizza</legend>
+
+Diameter <input type="text" name="diam" value="<?php echo $diam; ?>"><br>
+Price <input type="text" name="circPrice" value="<?php echo $circPrice; ?>"><br>
+
+<font color="red">
+<?php
+echo $diamErr . " ";
+echo $circPriceErr;
+?>
+</font>
+
+</fieldset>
+
+<br>
+<input type="submit" value="Go!">
+</form>
+
+<br>
+
+<?php
+if ($rectValue != NULL && $circValue != NULL) {
+    echo "Rectangular: $" . $rectValue . " per square in<br>";
+    echo "Circular: $" . $circValue . " per square in";
+}
+?>
+
+</body>
+</html>
