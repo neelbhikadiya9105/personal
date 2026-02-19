@@ -1,53 +1,53 @@
 <?php
 
-$len = $wid = $diam = $rectPrice = $circPrice = NULL;
-$rectValue = $circValue = NULL;
-$lenErr = $widErr = $diamErr = $rectPriceErr = $circPriceErr = NULL;
+$Length = $Width = $Diameter = $RectPrice = $CirclePrice = NULL;
+$RectValue = $CircleValue = NULL;
+$LengthErr = $WidthErr = $DiameterErr = $RectPriceErr = $CirclePriceErr = NULL;
 $valid = NULL;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $len = $_POST["len"];
-    $wid = $_POST["wid"];
-    $diam = $_POST["diam"];
-    $rectPrice = $_POST["rectPrice"];
-    $circPrice = $_POST["circPrice"];
+    $Length = $_POST["Length"];
+    $Width = $_POST["Width"];
+    $Diameter = $_POST["Diameter"];
+    $RectPrice = $_POST["RectPrice"];
+    $CirclePrice = $_POST["CirclePrice"];
 
     $valid = true;
 
-    if (empty($len) || !is_numeric($len) || $len <= 0 || $len > 24) {
-        $lenErr = "Length invalid.";
+    if (empty($Length) || $Length <= 0 || $Length > 24) {
+        $LengthErr = "Length invalid.";
         $valid = false;
     }
 
-    if (empty($wid) || !is_numeric($wid) || $wid <= 0 || $wid > 24) {
-        $widErr = "Width invalid.";
+    if (empty($Width) || $Width <= 0 || $Width > 24) {
+        $WidthErr = "Width invalid.";
         $valid = false;
     }
 
-    if (empty($rectPrice) || !is_numeric($rectPrice) || $rectPrice <= 0 || $rectPrice > 100) {
-        $rectPriceErr = "Price invalid.";
+    if (empty($RectPrice) || $RectPrice <= 0 || $RectPrice > 100) {
+        $RectPriceErr = "Price invalid.";
         $valid = false;
     }
 
-    if (empty($diam) || !is_numeric($diam) || $diam <= 0 || $diam > 24) {
-        $diamErr = "Diameter invalid.";
+    if (empty($Diameter) || $Diameter <= 0 || $Diameter > 24) {
+        $DiameterErr = "Diameter invalid.";
         $valid = false;
     }
 
-    if (empty($circPrice) || !is_numeric($circPrice) || $circPrice <= 0 || $circPrice > 100) {
-        $circPriceErr = "Price invalid.";
+    if (empty($CirclePrice) || $CirclePrice <= 0 || $CirclePrice > 100) {
+        $CirclePriceErr = "Price invalid.";
         $valid = false;
     }
 
     if ($valid) {
 
-        $rectArea = $len * $wid;
-        $rectValue = number_format($rectPrice / $rectArea, 4);
+        $RectArea = $Length * $Width;
+        $RectValue = number_format($RectPrice / $RectArea, 4);
 
-        $radius = $diam / 2;
-        $circArea = pi() * $radius * $radius;
-        $circValue = number_format($circPrice / $circArea, 4);
+        $Radius = $Diameter / 2;
+        $CircleArea = pi() * $Radius * $Radius;
+        $CircleValue = number_format($CirclePrice / $CircleArea, 4);
     }
 }
 ?>
@@ -64,15 +64,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <fieldset>
 <legend>Rectangular Pizza</legend>
 
-Length <input type="text" name="len" value="<?php echo $len; ?>"><br>
-Width <input type="text" name="wid" value="<?php echo $wid; ?>"><br>
-Price <input type="text" name="rectPrice" value="<?php echo $rectPrice; ?>"><br>
+Length <input type="text" name="Length" value="<?php echo $Length; ?>"><br>
+Width <input type="text" name="Width" value="<?php echo $Width; ?>"><br>
+Price <input type="text" name="RectPrice" value="<?php echo $RectPrice; ?>"><br>
 
 <font color="red">
 <?php
-echo $lenErr . " ";
-echo $widErr . " ";
-echo $rectPriceErr;
+echo $LengthErr . " ";
+echo $WidthErr . " ";
+echo $RectPriceErr;
 ?>
 </font>
 
@@ -83,13 +83,13 @@ echo $rectPriceErr;
 <fieldset>
 <legend>Circular Pizza</legend>
 
-Diameter <input type="text" name="diam" value="<?php echo $diam; ?>"><br>
-Price <input type="text" name="circPrice" value="<?php echo $circPrice; ?>"><br>
+Diameter <input type="text" name="Diameter" value="<?php echo $Diameter; ?>"><br>
+Price <input type="text" name="CirclePrice" value="<?php echo $CirclePrice; ?>"><br>
 
 <font color="red">
 <?php
-echo $diamErr . " ";
-echo $circPriceErr;
+echo $DiameterErr . " ";
+echo $CirclePriceErr;
 ?>
 </font>
 
@@ -102,9 +102,9 @@ echo $circPriceErr;
 <br>
 
 <?php
-if ($rectValue != NULL && $circValue != NULL) {
-    echo "Rectangular: $" . $rectValue . " per square in<br>";
-    echo "Circular: $" . $circValue . " per square in";
+if ($RectValue != NULL && $CircleValue != NULL) {
+    echo "Rectangular: $" . $RectValue . " per square in<br>";
+    echo "Circular: $" . $CircleValue . " per square in";
 }
 ?>
 
