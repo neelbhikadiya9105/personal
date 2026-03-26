@@ -3,35 +3,27 @@
 include __DIR__ . "/../../data/DbContext.php";
 
 $Context = new DbContext();
-$Album = new Album();
-$ListOfBands = array();
+$Band = new Band();
 
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    // load album from db using id from query string
-    $Album = $Context->GetAlbum($_GET["id"]);
-    $ListOfBands = $Context->GetAllBands();
-
-    if (count($ListOfBands) == 0) {
-        $error = "No Bands in Database.";
-    }
+    // load band from db using id from query string
+    $Band = $Context->GetBand($_GET["id"]);
 }
 
 else if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // input validation
-    if (empty(trim($_POST["txtTitle"])) || empty(trim($_POST["txtReleaseDate"]))) {
-        $error = "Title and Release Date required.";
+    if (empty(trim($_POST["txtName"]))) {
+        $error = "Name required.";
     }
 
     if (!isset($error)) {
         // get POST data from form
-        $Album->AlbumID = $_POST["hidAlbumID"];
-        $Album->Title = trim($_POST["txtTitle"]);
-        $Album->ReleaseDate = $_POST["txtReleaseDate"];
-        $Album->BandID = $_POST["ddlBandID"];
+        $Band->BandID = $_POST["hidBandID"];
+        $Band->Name = trim($_POST["txtName"]);
 
-        // update album in db
-        if ($Context->UpdateAlbum($Album)) {
+        // update band in db
+        if ($Context->UpdateBand($Band)) {
             // success
             header("Location: http://proj1a/");
             exit();
@@ -41,15 +33,10 @@ else if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     else {
-        // reload album values and band list so form keeps values
-        $Album->AlbumID = $_POST["hidAlbumID"];
-        $Album->Title = trim($_POST["txtTitle"]);
-        $Album->ReleaseDate = $_POST["txtReleaseDate"];
-        $Album->BandID = $_POST["ddlBandID"];
+        // reload band so form keeps values
+        $Band->BandID = $_POST["hidBandID"];
+        $Band->Name = trim($_POST["txtName"]);
     }
-
-    // if invalid, load list of bands again:
-    $ListOfBands = $Context->GetAllBands();
 }
 
 ?>
@@ -60,39 +47,25 @@ else if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Album Edit</title>
+    <title>Band Edit</title>
 </head>
 <body>
-    <h3>Edit Album</h3>
+    <h3>Edit Band</h3>
 
     <?php if (isset($error)) { echo "<p>{$error}</p>"; } ?>
 
     <form method="post">
-        <input type="hidden" name="hidAlbumID" value="<?php echo $Album->AlbumID; ?>">
+        <input type="hidden" name="hidBandID" value="<?php echo $Band->BandID; ?>">
 
-        <label for="txtTitle">Title</label>
-        <input type="text" id="txtTitle" name="txtTitle" value="<?php echo $Album->Title; ?>">
+        <label for="txtName">Name</label>
+        <input type="text" id="txtName" name="txtName" value="<?php echo $Band->Name; ?>">
         <br>
-
-        <label for="txtReleaseDate">Release Date</label>
-        <input type="date" id="txtReleaseDate" name="txtReleaseDate" value="<?php echo $Album->ReleaseDate; ?>">
-        <br>
-
-        <label for="ddlBandID">Band</label>
-        <select id="ddlBandID" name="ddlBandID">
-            <?php
-                foreach ($ListOfBands as $b) {
-                    $selected = ($b->BandID == $Album->BandID) ? "selected" : "";
-                    echo "<option value=\"{$b->BandID}\" {$selected}>{$b->Name}</option>";
-                }
-            ?>
-        </select>
 
         <input type="submit" value="Save!">
     </form>
 
     <ul>
-        <li><a href="/pages/albums/delete.php?id=<?php echo $Album->AlbumID; ?>">Delete this Album</a></li>
+        <li><a href="/pages/bands/delete.php?id=<?php echo $Band->BandID; ?>">Delete this Band</a></li>
         <li><a href="/">Return to Home Page</a></li>
     </ul>
 </body>
